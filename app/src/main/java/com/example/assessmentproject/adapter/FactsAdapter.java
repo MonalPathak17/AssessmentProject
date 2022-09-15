@@ -64,32 +64,9 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
         employeeViewHolder.employeeListItemBinding.setRow(currentStudent);
 
         //for intent Fragment on item click
-        employeeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (clickListener != null) clickListener.onClick(view, currentStudent);
-            }
-
+        employeeViewHolder.itemView.setOnClickListener(view -> {
+            if (clickListener != null) clickListener.onClick(view, currentStudent);
         });
-/*
-        employeeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                FragmentA fragmentA=new FragmentA();
-                Bundle bundle=new Bundle();
-                bundle.putString("title",currentStudent.getTitle());
-                bundle.putString("des",currentStudent.getDescription());
-                bundle.putString("image",currentStudent.getImageHref());
-                fragmentA.setArguments(bundle);
-             //   if (fragmentA != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentA).addToBackStack(null).commit();
-              //  }
-
-            }
-        });
-*/
 
         }
     @Override

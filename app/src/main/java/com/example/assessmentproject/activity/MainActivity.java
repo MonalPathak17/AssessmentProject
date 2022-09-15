@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FactsAdapter.Item
         employeeDataAdapter = new FactsAdapter();
         recyclerView.setAdapter(employeeDataAdapter);
 
-        employeeDataAdapter.setClickListener(this); // Bind the listener
+      //  employeeDataAdapter.setClickListener(this); // Bind the listener
 
          SwipeRefreshLayout swipeRefreshLayout=activityMainBinding.swipeRefreshLayout;
 

@@ -58,13 +58,6 @@ public class Row
     public static void loadImage(ImageView imageView, String imageURL)
     {
         Picasso.get().load(imageURL).fit().placeholder(R.mipmap.ic_launcher_round).into(imageView);
-        /*try {
-
-            Glide.with(imageView.getContext()).load(new URL(imageURL)).placeholder(R.mipmap.ic_launcher_round).into(imageView);
-        } catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }*/
 
 
     }
