@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.assessmentproject.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,13 +57,15 @@ public class Row
     @BindingAdapter({ "imageHref" })
     public static void loadImage(ImageView imageView, String imageURL)
     {
-        try {
-            Glide.with(imageView.getContext())
-                    .load(new URL(imageURL)).placeholder(R.mipmap.ic_launcher_round)
-                    .into(imageView);
-        } catch (MalformedURLException e) {
+        Picasso.get().load(imageURL).fit().placeholder(R.mipmap.ic_launcher_round).into(imageView);
+        /*try {
+
+            Glide.with(imageView.getContext()).load(new URL(imageURL)).placeholder(R.mipmap.ic_launcher_round).into(imageView);
+        } catch (MalformedURLException e)
+        {
             e.printStackTrace();
-        }
+        }*/
+
 
     }
 
