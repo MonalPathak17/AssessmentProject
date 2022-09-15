@@ -3,6 +3,7 @@ package com.example.assessmentproject.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +16,15 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.example.assessmentproject.R;
 import com.example.assessmentproject.adapter.FactsAdapter;
 import com.example.assessmentproject.databinding.ActivityMainBinding;
+import com.example.assessmentproject.fragment.FragmentA;
 import com.example.assessmentproject.model.Row;
 import com.example.assessmentproject.viewModel.MainViewModel;
 import com.google.gson.Gson;
@@ -29,14 +34,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FactsAdapter.ItemClickListener {
 
     private MainViewModel mainViewModel;
     private FactsAdapter employeeDataAdapter;
     ProgressDialog mProgressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(activityMainBinding.toolbarHome);
@@ -48,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         employeeDataAdapter = new FactsAdapter();
         recyclerView.setAdapter(employeeDataAdapter);
+
+        employeeDataAdapter.setClickListener(this); // Bind the listener
 
          SwipeRefreshLayout swipeRefreshLayout=activityMainBinding.swipeRefreshLayout;
 
@@ -154,4 +162,22 @@ public class MainActivity extends AppCompatActivity {
         return false;
 
     }
-}
+
+
+    @Override
+    public void onClick(View view, Row position)
+    {
+        Log.e("click","Click on position");
+        FragmentA fragmentA=new FragmentA();
+        Bundle bundle=new Bundle();
+        bundle.putString("title",position.getTitle());
+        bundle.putString("des",position.getDescription());
+        bundle.putString("image",position.getImageHref());
+        fragmentA.setArguments(bundle);
+        //   if (fragmentA != null) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentA).addToBackStack(null).commit();
+        //  }
+
+    }
+    }

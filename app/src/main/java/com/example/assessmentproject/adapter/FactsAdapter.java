@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.assessmentproject.R;
 import com.example.assessmentproject.databinding.FactsItemRowBinding;
 import com.example.assessmentproject.fragment.FragmentA;
@@ -24,6 +25,9 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
 {
     private ArrayList<Row> employees;
     Context context;
+    private ItemClickListener clickListener;
+
+
     @NonNull
     @Override
     public FactsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
@@ -49,6 +53,10 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
 */
         return new FactsViewHolder(employeeListItemBinding);
         }
+    public void setClickListener(ItemClickListener itemClickListener)
+    {
+        this.clickListener = itemClickListener;
+    }
     @Override
     public void onBindViewHolder(@NonNull FactsViewHolder employeeViewHolder, int i)
     {
@@ -56,6 +64,13 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
         employeeViewHolder.employeeListItemBinding.setRow(currentStudent);
 
         //for intent Fragment on item click
+        employeeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener != null) clickListener.onClick(view, currentStudent);
+            }
+
+        });
 /*
         employeeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +83,8 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
                 bundle.putString("image",currentStudent.getImageHref());
                 fragmentA.setArguments(bundle);
              //   if (fragmentA != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();;
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentA).commit();
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentA).addToBackStack(null).commit();
               //  }
 
             }
@@ -100,7 +115,11 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
         super(employeetListItemBinding.getRoot());
         this.employeeListItemBinding = employeetListItemBinding;
 
+
     }
 
 }
+    public interface ItemClickListener {
+        void onClick(View view, Row position);
+    }
 }
