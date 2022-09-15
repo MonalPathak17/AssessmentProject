@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_width">0sp</dimen>
+    <dimen name="margins">8sp</dimen>
+    <dimen name="padding">4sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_big">18sp</dimen>
+    <dimen name="image_width">150sp</dimen>
+    <dimen name="image_height">80sp</dimen>
+
+</resources>
