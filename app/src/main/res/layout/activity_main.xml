@@ -21,16 +21,16 @@
         app:title="@{facts.title}"
         app:titleTextColor="@color/white"
         />
-        <FrameLayout
+      <!--  <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"/>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activity.MainActivity"
-        tools:showIn="@layout/activity_main">
+        android:layout_height="wrap_content"
+        tools:context=".activity.MainActivity">
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.assessmentproject.activity;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
@@ -25,8 +26,10 @@ import com.example.assessmentproject.R;
 import com.example.assessmentproject.adapter.FactsAdapter;
 import com.example.assessmentproject.databinding.ActivityMainBinding;
 import com.example.assessmentproject.fragment.FragmentA;
+import com.example.assessmentproject.model.FactsModel;
 import com.example.assessmentproject.model.Row;
 import com.example.assessmentproject.viewModel.MainViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,23 +42,27 @@ public class MainActivity extends AppCompatActivity implements FactsAdapter.Item
     private MainViewModel mainViewModel;
     private FactsAdapter employeeDataAdapter;
     ProgressDialog mProgressDialog;
+    public MaterialToolbar toolbar;
+    public ActionBar actionBar;
+    ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        setSupportActionBar(activityMainBinding.toolbarHome);
+         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+         setSupportActionBar(activityMainBinding.toolbarHome);
+        actionBar=getSupportActionBar();
         // bind RecyclerView
         RecyclerView recyclerView = activityMainBinding.viewEmployees;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         employeeDataAdapter = new FactsAdapter();
         recyclerView.setAdapter(employeeDataAdapter);
 
-      //  employeeDataAdapter.setClickListener(this); // Bind the listener
+        employeeDataAdapter.setClickListener(this); // Bind the listener
 
          SwipeRefreshLayout swipeRefreshLayout=activityMainBinding.swipeRefreshLayout;
 
@@ -167,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements FactsAdapter.Item
     @Override
     public void onClick(View view, Row position)
     {
+        //before calling fragment remove all views from recyclerview
+        activityMainBinding.rec.removeAllViews();
+        activityMainBinding.rec.clearDisappearingChildren();
         Log.e("click","Click on position");
         FragmentA fragmentA=new FragmentA();
         Bundle bundle=new Bundle();
@@ -174,9 +184,11 @@ public class MainActivity extends AppCompatActivity implements FactsAdapter.Item
         bundle.putString("des",position.getDescription());
         bundle.putString("image",position.getImageHref());
         fragmentA.setArguments(bundle);
+
+
         //   if (fragmentA != null) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentA).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.rec, fragmentA).addToBackStack(null).commit();
         //  }
 
     }
